@@ -1,0 +1,62 @@
+# Node modules
+/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build and cache directories
+/.cache/
+/dist/
+/public/
+/build/
+/coverage/
+
+# Local environment variables
+.env
+.env.local
+.env.*.local
+
+# Editors
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*.sublime-*
+*.iml
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Parcel
+.cache
+.rw/
+
+# TypeScript
+*.tsbuildinfo
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Miscellaneous
+*.bak
+*.tmp
+*.temp
