@@ -12,9 +12,7 @@
     "url": "https://github.com/rtio/lightning-image/issues"
   },
   "homepage": "https://github.com/rtio/lightning-image#readme",
-  "main": "dist/lightning-image.cjs.js",
-  "module": "dist/lightning-image.esm.js",
-  "browser": "dist/lightning-image.umd.js",
+  "main": "dist/lightning-image.js",
   "keywords": [
     "image",
     "lightning",
