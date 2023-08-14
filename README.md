@@ -51,12 +51,12 @@ If you'd like to include `Lightning Image` directly in your HTML file, you can d
 
 If hosting locally:
 ```html
-<script src="path_to_local_directory/lightning-image.umd.js"></script>
+<script src="path_to_local_directory/lightning-image.js"></script>
 ```
 
 Or, if using a CDN (this is just a placeholder link):
 ```html
-<script src="https://cdn.example.com/lightning-image/latest/lightning-image.umd.js"></script>
+<script src="https://cdn.example.com/lightning-image/latest/lightning-image.js"></script>
 ```
 
 2. **Use the library**:
@@ -86,13 +86,7 @@ Once you've included the script, the library's functions will be available under
 
 ## Build
 
-The project provides various builds suitable for different environments:
-
-- `lightning-image.cjs.js` - CommonJS build
-- `lightning-image.esm.js` - ES Module build
-- `lightning-image.umd.js` - UMD (Universal Module Definition) build
-
-The appropriate build can be imported based on the needs of your project and environment.
+The project provides various builds suitable for different environments getting leverage from [UMD (Universal Module Definition)](https://github.com/umdjs/umd).
 
 ## Contribute
 
