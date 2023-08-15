@@ -2,14 +2,34 @@
 
 An efficient and flexible image format detection and processing library. With `Lightning Image`, you can effortlessly obtain the dimensions of images, determine their format, and even check if they are animated, all from just a few bytes of data!
 
-**Please note that currently the AVIF and TIFF image formats are behaving unexpectedly with some images. See the test file for details.**
+## Handling Large Images with Security and User Experience in Mind 🖼️🔍🔐
+
+`Lightning Image` is not just about handling large images; it's about doing it right. Some browsers have limitations with big pixel images, leading to not just processing issues but potential security vulnerabilities.
+
+By relying on native methods, you may be forced to pass the image through the server for evaluation, opening the door to various risks. `Lightning Image` addresses these concerns by fetching only the first 1000 bytes of the image data, validating the format, and obtaining dimensions even for immense images that other methods might struggle with.
+
+### Why it Matters?
+
+- **No Browser Limitations**: Work seamlessly across browsers, without worrying about specific constraints on image size.
+- **Enhanced Security**: Minimize the risk by handling image validation on the frontend, without the need for server-side evaluation.
+- **Improved User Experience**: Provide instant feedback to users if an image cannot be loaded or uploaded, enhancing the overall user interaction.
+- **Efficient Processing**: Handle large images with finesse, without bogging down the browser or compromising security.
+- **Perfect for Heavy Use Cases**: Ideal for applications with extensive image processing needs where native methods might fail.
+
+### For Backend Solutions
+
+If you're looking for a powerful image processing library specifically tailored for backend environments, you might want to explore [Sharp](https://github.com/lovell/sharp), a high-performance Node.js image processing library. `Lightning Image` is designed with browser environments in mind and offers unique solutions for front-end challenges.
+
+With `Lightning Image`, your image processing is not only lightning-fast but also secure and user-friendly. It's about making big feel small and safe! ⚡️🎨🛡️
 
 ## Features
 - 🌩️ Lightning-fast image detection and processing.
 - 🔍 Detects various image formats including PNG, JPEG, GIF, WEBP, AVIF, BMP, and TIFF.
 - 🔄 Dynamic format checker imports for optimized performance.
 - 🖼️ Fetches only the first 1000 bytes to minimize bandwidth and speed up detection.
-- 📦 Provides CommonJS, ES Modules, and UMD builds for broad compatibility.
+- 📦 Provides UMD build for broad compatibility.
+
+**Please note that currently the AVIF and TIFF image formats are behaving unexpectedly with some images. See the test file for details.**
 
 ## Installation
 
