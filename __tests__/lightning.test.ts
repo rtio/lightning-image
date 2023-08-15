@@ -109,13 +109,13 @@ const TEST_CASES = [
         expectedAnimated: false,
         expectedError: null,
     },
-    // {
-    //     url: `${host}/greyscale.tif`,
-    //     expectedDimensions: { width: 256, height: 256 },
-    //     expectedFormat: ImageType.TIFF,
-    //     expectedAnimated: false,
-    //     expectedError: null,
-    // },
+    {
+        url: `${host}/greyscale.tif`,
+        expectedDimensions: { width: 256, height: 256 },
+        expectedFormat: ImageType.TIFF,
+        expectedAnimated: false,
+        expectedError: null,
+    },
     {
         url: `${host}/rgb.tif`,
         expectedDimensions: { width: 346, height: 207 },

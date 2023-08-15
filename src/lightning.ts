@@ -32,8 +32,14 @@ async function loadFormatCheckers(
   return loadedCheckers;
 }
 
-async function getDataViewFromUrl(url: string): Promise<DataView> {
-  const response = await fetch(url, { headers: { Range: 'bytes=0-999' } }); // Fetch only the first 1000 bytes
+async function getDataViewFromUrl(
+  url: string,
+  readAll: boolean,
+): Promise<DataView> {
+  const response = readAll
+    ? await fetch(url)
+    : await fetch(url, { headers: { Range: 'bytes=0-999' } });
+
   if (!response.ok)
     throw new Error('Failed to fetch image data. Network error.');
 
@@ -43,11 +49,16 @@ async function getDataViewFromUrl(url: string): Promise<DataView> {
 
 async function processImageData(url: string, action): Promise<any> {
   await ensureFormatCheckersLoaded(); // This line ensures formatCheckers are loaded before processing.
-  const view = await getDataViewFromUrl(url);
+  const view = await getDataViewFromUrl(url, false);
 
   for (const checker of formatCheckers) {
     if (checker.isValid(view)) {
-      return action(checker, view);
+      try {
+        return action(checker, view);
+      } catch (ShortOfBytesError) {
+        // If the image is too short, we'll try to read the whole image.
+        return action(checker, await getDataViewFromUrl(url, true));
+      }
     }
   }
 

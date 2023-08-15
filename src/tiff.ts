@@ -1,4 +1,9 @@
-import { Dimensions, FormatHandler, ImageType } from './image';
+import {
+  Dimensions,
+  FormatHandler,
+  ImageType,
+  ShortOfBytesError,
+} from './image';
 
 // This object is used to dynamically import the format handlers
 export const tiffHandler: FormatHandler = {
@@ -17,26 +22,35 @@ function isTiff(imageDataView: DataView): boolean {
 }
 
 function getTiffDimensions(imageDataView: DataView): Dimensions {
-  const littleEndian = imageDataView.getUint16(0, false) === 0x4949;
+  const littleEndian = isLittleEndian(imageDataView);
   const ifdOffset = imageDataView.getUint32(4, littleEndian);
+  // Compressed or uncompressed image data can be stored almost anywhere in a
+  // TIFF file. The TIFF format is organized into image file directories (IFDs).
+  if (ifdOffset > imageDataView.byteLength) {
+    throw new ShortOfBytesError();
+  }
 
-  // This simple version only extracts width and height from the first IFD
-  // TIFFs can be much more complex with multiple IFDs
+  return extractDimensionsFromIFD(imageDataView, ifdOffset, littleEndian);
+}
+
+function isLittleEndian(imageDataView: DataView): boolean {
+  return imageDataView.getUint16(0, false) === 0x4949;
+}
+
+function extractDimensionsFromIFD(
+  imageDataView: DataView,
+  ifdOffset: number,
+  littleEndian: boolean,
+): Dimensions {
+  const entries = imageDataView.getUint16(ifdOffset, littleEndian);
   let width = 0;
   let height = 0;
-  const entries = imageDataView.getUint16(ifdOffset, littleEndian);
+
   for (let i = 0; i < entries; i++) {
-    const tag = imageDataView.getUint16(ifdOffset + 2 + i * 12, littleEndian);
-    const type = imageDataView.getUint16(
-      ifdOffset + 2 + i * 12 + 2,
-      littleEndian,
-    );
-    const count = imageDataView.getUint32(
-      ifdOffset + 2 + i * 12 + 4,
-      littleEndian,
-    );
-    const valueOffset = imageDataView.getUint32(
-      ifdOffset + 2 + i * 12 + 8,
+    const entryOffset = ifdOffset + 2 + i * 12;
+    const { tag, type, count, valueOffset } = extractIFDEntry(
+      imageDataView,
+      entryOffset,
       littleEndian,
     );
 
@@ -44,11 +58,28 @@ function getTiffDimensions(imageDataView: DataView): Dimensions {
       // It's a short, value is inline
       if (tag === 256) {
         width = valueOffset;
-      } else if (tag === 257) {
+      }
+      if (tag === 257) {
         height = valueOffset;
+      }
+      if (width && height) {
+        return { width, height };
       }
     }
   }
 
   return { width, height };
+}
+
+function extractIFDEntry(
+  imageDataView: DataView,
+  entryOffset: number,
+  littleEndian: boolean,
+) {
+  const tag = imageDataView.getUint16(entryOffset, littleEndian);
+  const type = imageDataView.getUint16(entryOffset + 2, littleEndian);
+  const count = imageDataView.getUint32(entryOffset + 4, littleEndian);
+  const valueOffset = imageDataView.getUint16(entryOffset + 8, littleEndian);
+
+  return { tag, type, count, valueOffset };
 }
