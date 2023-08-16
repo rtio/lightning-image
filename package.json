@@ -1,7 +1,7 @@
 {
   "name": "@rtiodev/lightning-image",
   "author": "Rafael Meneses <meneses.tio@gmail.com> (https://rtio.dev/)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "GPL-3.0",
   "description": "Get lightning fast information about images with little resources.",
   "repository": {
