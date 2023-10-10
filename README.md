@@ -34,7 +34,7 @@ With `Lightning Image`, your image processing is not only lightning-fast but als
 ## Installation
 
 ```bash
-npm install lightning-image
+pnpm install @rtiodev/lightning-image
 ```
 
 ## Usage
